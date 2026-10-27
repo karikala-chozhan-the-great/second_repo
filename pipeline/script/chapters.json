@@ -1,0 +1,430 @@
+{
+ "segments": [
+  {
+   "seg": 1,
+   "chapter": "P",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 2,
+   "chapter": "P",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 3,
+   "chapter": "P",
+   "local": 3,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 4,
+   "chapter": "P",
+   "local": 4,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 5,
+   "chapter": "P",
+   "local": 5,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 6,
+   "chapter": "C1",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 7,
+   "chapter": "C1",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 8,
+   "chapter": "C1",
+   "local": 3,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 9,
+   "chapter": "C1",
+   "local": 4,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 10,
+   "chapter": "C1",
+   "local": 5,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 11,
+   "chapter": "C2",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 12,
+   "chapter": "C2",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 13,
+   "chapter": "C2",
+   "local": 3,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 14,
+   "chapter": "C2",
+   "local": 4,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 15,
+   "chapter": "C3",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 16,
+   "chapter": "C3",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 17,
+   "chapter": "C3",
+   "local": 3,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 18,
+   "chapter": "C3",
+   "local": 4,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 19,
+   "chapter": "C4",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 20,
+   "chapter": "C4",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 21,
+   "chapter": "C4",
+   "local": 3,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 22,
+   "chapter": "C5",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 23,
+   "chapter": "C5",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 24,
+   "chapter": "C5",
+   "local": 3,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 25,
+   "chapter": "C6",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 26,
+   "chapter": "C6",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 27,
+   "chapter": "C6",
+   "local": 3,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 28,
+   "chapter": "C6",
+   "local": 4,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 29,
+   "chapter": "C7",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 30,
+   "chapter": "C7",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 31,
+   "chapter": "C7",
+   "local": 3,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 32,
+   "chapter": "C8",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 33,
+   "chapter": "C8",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 34,
+   "chapter": "C8",
+   "local": 3,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 35,
+   "chapter": "C9",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 36,
+   "chapter": "C9",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 37,
+   "chapter": "C9",
+   "local": 3,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 38,
+   "chapter": "C9",
+   "local": 4,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 39,
+   "chapter": "C10",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 40,
+   "chapter": "C10",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 41,
+   "chapter": "C10",
+   "local": 3,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 42,
+   "chapter": "C10",
+   "local": 4,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 43,
+   "chapter": "C10",
+   "local": 5,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 44,
+   "chapter": "C11",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 45,
+   "chapter": "C11",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 46,
+   "chapter": "C11",
+   "local": 3,
+   "last_in_chapter": true
+  },
+  {
+   "seg": 47,
+   "chapter": "C12",
+   "local": 1,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 48,
+   "chapter": "C12",
+   "local": 2,
+   "last_in_chapter": false
+  },
+  {
+   "seg": 49,
+   "chapter": "C12",
+   "local": 3,
+   "last_in_chapter": true
+  }
+ ],
+ "chapters": [
+  {
+   "id": "P",
+   "en": "Prologue",
+   "ta": "முன்னுரை",
+   "years": [
+    1991,
+    1991
+   ],
+   "n": 5
+  },
+  {
+   "id": "C1",
+   "en": "The Giant",
+   "ta": "பெருவல்லரசு",
+   "years": [
+    1957,
+    1985
+   ],
+   "n": 5
+  },
+  {
+   "id": "C2",
+   "en": "A New Leader",
+   "ta": "ஒரு புதிய தலைவர்",
+   "years": [
+    1985,
+    1987
+   ],
+   "n": 4
+  },
+  {
+   "id": "C3",
+   "en": "An Economy in Trouble",
+   "ta": "தடுமாறும் பொருளாதாரம்",
+   "years": [
+    1985,
+    1989
+   ],
+   "n": 4
+  },
+  {
+   "id": "C4",
+   "en": "The War",
+   "ta": "முடிவில்லாத போர்",
+   "years": [
+    1979,
+    1989
+   ],
+   "n": 3
+  },
+  {
+   "id": "C5",
+   "en": "Chernobyl",
+   "ta": "செர்னோபில்",
+   "years": [
+    1986,
+    1986
+   ],
+   "n": 3
+  },
+  {
+   "id": "C6",
+   "en": "Forces Unleashed",
+   "ta": "விடுபட்ட சக்திகள்",
+   "years": [
+    1988,
+    1991
+   ],
+   "n": 4
+  },
+  {
+   "id": "C7",
+   "en": "The Year Everything Changed",
+   "ta": "எல்லாம் மாறிய ஆண்டு",
+   "years": [
+    1989,
+    1989
+   ],
+   "n": 3
+  },
+  {
+   "id": "C8",
+   "en": "Two Leaders",
+   "ta": "இரு தலைவர்கள்",
+   "years": [
+    1990,
+    1991
+   ],
+   "n": 3
+  },
+  {
+   "id": "C9",
+   "en": "The Coup",
+   "ta": "சதிப்புரட்சி",
+   "years": [
+    1991,
+    1991
+   ],
+   "n": 4
+  },
+  {
+   "id": "C10",
+   "en": "The End",
+   "ta": "முடிவு",
+   "years": [
+    1991,
+    1991
+   ],
+   "n": 5
+  },
+  {
+   "id": "C11",
+   "en": "Why Did It Fall?",
+   "ta": "ஏன் வீழ்ந்தது?",
+   "years": [
+    1985,
+    1991
+   ],
+   "n": 3
+  },
+  {
+   "id": "C12",
+   "en": "Legacy",
+   "ta": "விட்டுச்சென்றவை",
+   "years": [
+    1991,
+    1991
+   ],
+   "n": 3
+  }
+ ]
+}

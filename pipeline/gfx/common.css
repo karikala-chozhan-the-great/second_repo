@@ -1,0 +1,5 @@
+:root{--red:#c8102e;--gold:#e8b923;--ink:#f4efe6;--dark:#0d0d0f}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent}
+body{font-family:'Noto Sans','Noto Sans Tamil','DejaVu Sans',sans-serif;color:var(--ink)}
+.ta{font-family:'Noto Sans Tamil','Noto Sans',sans-serif}

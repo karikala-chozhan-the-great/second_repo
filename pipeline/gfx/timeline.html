@@ -1,0 +1,29 @@
+<!doctype html><meta charset=utf-8><link rel=stylesheet href=common.css>
+<style>
+body{background:radial-gradient(ellipse at 50% 46%,#1a0b10 0%,#070708 72%)}
+#grain{position:absolute;inset:0;opacity:.06;background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
+.abs{position:absolute}.k{color:var(--gold);text-transform:uppercase;letter-spacing:5px;font-size:38px}.ta .k{text-transform:none;letter-spacing:2px}
+.ev{opacity:0}.ev .y{font-family:'Noto Sans',sans-serif;font-weight:800;font-size:46px;color:var(--gold)}.ev .l{font-size:38px;font-weight:600;line-height:1.2;margin-top:6px}
+.bar .nm{font-size:44px;font-weight:700;line-height:1.1}.bar .yr{font-size:32px;color:#e6dfd0;margin-top:4px}
+</style>
+<div id=root></div><div id=grain></div>
+<script>
+const D=window.__DATA||{};if(D.lang==='ta')document.body.classList.add('ta');
+const E=x=>Math.min(1,Math.max(0,x)),o3=x=>1-Math.pow(1-E(x),3),root=document.getElementById('root');
+function el(cls,html,css){const d=document.createElement('div');d.className='abs '+(cls||'');d.innerHTML=html||'';if(css)d.style.cssText+=css;root.appendChild(d);return d}
+const ax=D.axis||{from:1985,to:1992},L=140,R=D.mode==='bars'?1780:1690,X=y=>L+(R-L)*(y-ax.from)/(ax.to-ax.from);
+const hd=el('k',D.title||'','left:140px;top:90px');
+const base=el('', '', `left:${L}px;width:${R-L}px;top:${D.mode==='bars'?820:540}px;height:6px;background:#3a3a44`);
+const fill=el('', '', `left:${L}px;width:0;top:${D.mode==='bars'?820:540}px;height:6px;background:var(--red)`);
+const ticks=[];if(!D.noticks)for(let y=Math.ceil(ax.from/(D.tick||1))*(D.tick||1);y<=ax.to;y+=(D.tick||1)){const yTop=D.mode==='bars'?830:550;ticks.push(el('',`<div style="font-size:30px;color:#9a9486;text-align:center;width:120px;margin-left:-60px;margin-top:20px;font-family:'Noto Sans',sans-serif">${y}</div>`,`left:${X(y)}px;top:${yTop}px;width:0`))}
+const items=(D.items||[]).map((o,i)=>{
+  if(D.mode==='bars'){const w=X(o.to)-X(o.from);const narrow=(X(o.to)-X(o.from))<170;if(narrow){const lb=el('ev',`<div class=nm style="font-size:34px;font-weight:700;white-space:nowrap">${o.name}</div><div style="font-size:28px;color:#e6dfd0;white-space:nowrap">${o.years||''}</div>`,`left:${X(o.from)+(X(o.to)-X(o.from))/2}px;top:${300-(D.h||420)+(820-300)-(D.h||420)-10+(o.lift||0)}px;transform:translateX(-50%);text-align:center`);lb.style.opacity=0;lb._narrow=true;window.__lbl=(window.__lbl||[]);window.__lbl.push(lb)}
+  const d=el('bar',narrow?'':`<div class=nm>${o.name}</div><div class=yr>${o.years||''}</div>`,`left:${X(o.from)}px;top:${300+i*0}px;width:${w}px;height:420px;background:${o.col||'#a30d25'};padding:26px 22px;overflow:hidden;opacity:0;border-top:8px solid var(--gold);box-sizing:border-box`);return d}
+  const up=(i%2===0);const x=X(o.at);const d=el('ev',`<div class=y>${o.y||''}</div><div class=l>${o.label}</div>`,`left:${x-170}px;width:340px;text-align:center;${up?'bottom:'+(1080-540+34)+'px':'top:'+(540+34)+'px'}`);
+  const pin=el('', '', `left:${x-12}px;top:${540-12}px;width:24px;height:24px;border-radius:50%;background:var(--gold);opacity:0;border:4px solid #0d0d0f`);d._pin=pin;return d});
+window.setT=t=>{hd.style.opacity=o3(t/.6);
+  if(D.mode==='bars'){items.forEach((d,i)=>{const a=o3((t-(D.t0||.6)-i*(D.step||.7))/.6);d.style.opacity=a;d.style.transform=`translateY(${(1-a)*30}px)`;d.style.height=(D.h||420)+'px';d.style.top=(820-(D.h||420))+'px'});(window.__lbl||[]).forEach((lb,i)=>{lb.style.opacity=o3((t-(D.t0||.6)-1.5*(D.step||.7))/.6);lb.style.top=(820-(D.h||420)-(i%2?185:90))+'px'})}
+  else{const last=(D.items||[]).length?X(D.items[D.items.length-1].at):L;let p=o3((t-.2)/(D.sweep||5));fill.style.width=((R-L)*p)+'px';
+    items.forEach((d,i)=>{const o=D.items[i];const at=o.t!==undefined?o.t:(.5+i*(D.step||.8));const a=o3((t-at)/.5);d.style.opacity=a;d._pin.style.opacity=a;d.style.transform=`translateY(${(1-a)*(i%2===0?-1:1)*-20}px)`})}
+  document.body.style.opacity=D.dur&&t>D.dur-.4?E((D.dur-t)/.4):1};
+</script>

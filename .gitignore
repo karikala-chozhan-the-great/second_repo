@@ -1,0 +1,6 @@
+build/
+node_modules/
+__pycache__/
+*.wav
+*.part.mp4
+pipeline/gfx/map_data_*.js

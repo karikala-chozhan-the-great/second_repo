@@ -1,0 +1,62 @@
+<!doctype html><meta charset=utf-8><link rel=stylesheet href=common.css>
+<style>
+body{background:radial-gradient(ellipse at 50% 46%,#1d0b10 0%,#070708 72%)}
+#grain{position:absolute;inset:0;opacity:.06;background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
+.abs{position:absolute}
+.k{color:var(--gold);text-transform:uppercase;letter-spacing:5px;font-size:34px}
+.ta .k{text-transform:none;letter-spacing:2px}
+.big{font-weight:800;line-height:1.05}
+.rule{height:6px;background:var(--red)}
+.row{position:absolute;left:160px;right:160px;display:flex;align-items:center;opacity:0}
+.row .dot{width:22px;height:22px;background:var(--red);transform:rotate(45deg);margin-right:36px;flex:none}
+.row .tx{font-size:66px;font-weight:600;line-height:1.2}
+.num{font-family:'Noto Sans',sans-serif;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+</style>
+<div id=root></div><div id=grain></div>
+<script>
+const D=window.__DATA||{};if(D.lang==='ta')document.body.classList.add('ta');
+const E=x=>Math.min(1,Math.max(0,x)),o3=x=>1-Math.pow(1-E(x),3),root=document.getElementById('root');
+function el(cls,html,css){const d=document.createElement('div');d.className='abs '+(cls||'');d.innerHTML=html||'';if(css)d.style.cssText+=css;root.appendChild(d);return d}
+const K=D.kind;let upd=()=>{};
+if(K==='definition'){ // word, pron, meaning, sub
+  const w=el('big',D.word,'left:0;right:0;top:250px;text-align:center;font-size:190px;color:var(--ink)');
+  const pr=el('k',D.pron||'','left:0;right:0;top:470px;text-align:center');
+  const ln=el('rule','','left:50%;top:560px;transform:translateX(-50%);width:0');
+  const m=el('big',D.meaning,'left:160px;right:160px;top:610px;text-align:center;font-size:84px;color:var(--gold);line-height:1.2');
+  const sb=el('', D.sub||'','left:200px;right:200px;top:830px;text-align:center;font-size:44px;color:#cfc7b8');
+  upd=t=>{const a=o3((t-.3)/.9);w.style.opacity=a;w.style.transform=`translateY(${(1-a)*30}px)`;pr.style.opacity=o3((t-.9)/.6);ln.style.width=900*o3((t-1.1)/.9)+'px';
+    const b=o3((t-1.8)/.8);m.style.opacity=b;m.style.transform=`translateY(${(1-b)*24}px)`;sb.style.opacity=o3((t-2.8)/.8)};
+}else if(K==='list'){ // title, items[], t0 step
+  const hd=el('k',D.title||'','left:160px;top:130px;font-size:38px');const ln=el('rule','','left:160px;top:200px;width:0');
+  const items=(D.items||[]).map((x,i)=>{const r=document.createElement('div');r.className='row';r.style.top=(300+i*(D.gap||170))+'px';r.innerHTML=`<div class=dot></div><div class=tx>${x}</div>`;root.appendChild(r);return r});
+  upd=t=>{hd.style.opacity=o3(t/.6);ln.style.width=Math.min(1600,300+0)*o3((t-.2)/.8)+'px';
+    items.forEach((r,i)=>{const a=o3((t-(D.t0||0.8)-i*(D.step||0.9))/.6);r.style.opacity=a;r.style.transform=`translateX(${(1-a)*60}px)`})};
+}else if(K==='bignum'){ // nums:[{v,pre,suf,label,t}] arranged in a row
+  const hd=el('k',D.title||'','left:0;right:0;top:120px;text-align:center;font-size:40px');
+  const n=(D.nums||[]).length,cw=1600/n;
+  const cells=(D.nums||[]).map((o,i)=>{const c=el('', `<div class="num" style="font-size:${n>2?150:190}px;line-height:1.1"></div><div style="font-size:46px;margin-top:14px;color:var(--ink);line-height:1.25">${o.label}</div>`,`left:${160+i*cw}px;width:${cw}px;top:330px;text-align:center;opacity:0`);return c});
+  const sub=el('', D.sub||'','left:200px;right:200px;top:850px;text-align:center;font-size:42px;color:#cfc7b8');
+  upd=t=>{hd.style.opacity=o3(t/.6);(D.nums||[]).forEach((o,i)=>{const p=o3((t-(o.t||0.6+i*0.8))/1.2),c=cells[i];c.style.opacity=E((t-(o.t||0.6+i*0.8))/.5);
+    c.querySelector('.num').innerHTML=(o.pre||'')+Math.round(o.v*p).toLocaleString('en-US')+(o.suf?`<span style="font-size:.42em;font-weight:700;color:var(--ink);margin-left:12px">${o.suf}</span>`:'')});sub.style.opacity=o3((t-2.6)/.8)};
+}else if(K==='person'){ // name, role, years, note
+  const bar=el('','','left:300px;top:300px;width:12px;height:0;background:var(--red)');
+  const nm=el('big',D.name,'left:350px;right:150px;top:290px;font-size:130px;line-height:1.1');
+  const rl=el('',D.role||'','left:350px;right:150px;top:560px;font-size:60px;color:var(--gold);line-height:1.25');
+  const yr=el('k',D.years||'','left:350px;top:760px;font-size:44px');
+  upd=t=>{bar.style.height=380*o3((t-.2)/.9)+'px';const a=o3((t-.5)/.8);nm.style.opacity=a;nm.style.transform=`translateX(${(1-a)*40}px)`;rl.style.opacity=o3((t-1.1)/.8);yr.style.opacity=o3((t-1.6)/.8)};
+}else if(K==='bigtext'){ // text, sub
+  const tx=el('big',D.text,'left:200px;right:200px;top:320px;text-align:center;font-size:120px;line-height:1.15');const sb=el('',D.sub||'','left:200px;right:200px;top:800px;text-align:center;font-size:48px;color:var(--gold)');const ln=el('rule','','left:50%;top:700px;transform:translateX(-50%);width:0');
+  upd=t=>{const a=o3((t-.3)/1);tx.style.opacity=a;tx.style.transform=`scale(${1.04-.04*a})`;ln.style.width=700*o3((t-1)/.8)+'px';sb.style.opacity=o3((t-1.6)/.8)};
+}else if(K==='end'){ // title, sub, lines[]
+  const tt=el('big',D.title,'left:100px;right:100px;top:250px;text-align:center;font-size:96px;line-height:1.2');const ln=el('rule','','left:50%;top:520px;transform:translateX(-50%);width:0');
+  const sb=el('',D.sub||'','left:200px;right:200px;top:570px;text-align:center;font-size:50px;color:var(--gold)');
+  const ls=el('',(D.lines||[]).join('<br>'),'left:200px;right:200px;top:760px;text-align:center;font-size:34px;line-height:1.5;color:#cfc7b8');
+  upd=t=>{const a=o3(t/1);tt.style.opacity=a;ln.style.width=900*o3((t-.4)/.8)+'px';sb.style.opacity=o3((t-.8)/.8);ls.style.opacity=o3((t-1.4)/.8)};
+}
+// shrink any oversize single-line text to fit the frame (measure the real text width, not the container)
+document.fonts.ready.then(()=>{document.querySelectorAll('.big,.num,.tx').forEach(e=>{const r=document.createRange();const w=()=>{r.selectNodeContents(e);return r.getBoundingClientRect().width};
+  let fs=parseFloat(getComputedStyle(e).fontSize),box=e.classList.contains('tx')?1500:1640;e.style.whiteSpace='nowrap';let g=0;
+  while(w()>box&&fs>36&&g++<80){fs-=4;e.style.fontSize=fs+'px'}
+  if(w()<=box){e.style.whiteSpace=''}})});
+window.setT=t=>{upd(t);const d=D.dur;document.body.style.opacity=d&&t>d-.4?E((d-t)/.4):1};
+</script>

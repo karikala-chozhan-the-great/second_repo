@@ -1,0 +1,20 @@
+<!doctype html><meta charset=utf-8><link rel=stylesheet href=common.css>
+<style>
+body{background:radial-gradient(ellipse at 50% 50%,#14141a 0%,#050506 75%)}
+.f{position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+#su{width:1160px;height:580px}#ru{width:1000px;height:667px;object-fit:cover}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 45%,rgba(0,0,0,.65) 100%)}
+#cap{position:absolute;left:0;right:0;bottom:90px;text-align:center;font-size:44px;letter-spacing:6px;text-transform:uppercase;color:#d8d0c0}.ta #cap{text-transform:none;letter-spacing:2px}
+</style>
+<img id=su class=f src="flag_su.svg"><img id=ru class=f src="node/node_modules/flag-icons/flags/4x3/ru.svg"><div id=vig></div><div id=cap></div>
+<script>
+const D=window.__DATA||{};if(D.lang==='ta')document.body.classList.add('ta');window.__ready=false;
+let n=0;const done=()=>{if(++n>=2)window.__ready=true};
+document.getElementById('su').onload=done;document.getElementById('ru').onload=done;document.getElementById('su').onerror=done;document.getElementById('ru').onerror=done;
+document.getElementById('su').src=D.su;document.getElementById('cap').textContent=D.caption||'';
+const E=x=>Math.min(1,Math.max(0,x)),io=x=>{x=E(x);return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2};
+window.setT=t=>{const d=D.dur||8,sw=D.swap||d*0.5,w=io((t-sw)/1.6),z=1+0.05*(t/d);
+  const su=document.getElementById('su'),ru=document.getElementById('ru');su.style.opacity=1-w;ru.style.opacity=w;
+  su.style.transform=`translate(-50%,-52%) scale(${z})`;ru.style.transform=`translate(-50%,-52%) scale(${z})`;
+  document.getElementById('cap').style.opacity=E((t-.6)/.8);document.body.style.opacity=t>d-.4?E((d-t)/.4):1};
+</script>

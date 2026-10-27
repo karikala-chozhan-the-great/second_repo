@@ -1,0 +1,2 @@
+# Large media goes through Git LFS (GitHub rejects normal files over 100 MB)
+*.mp4 filter=lfs diff=lfs merge=lfs -text

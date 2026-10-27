@@ -1,0 +1,30 @@
+<!doctype html><meta charset=utf-8><link rel=stylesheet href=common.css>
+<style>
+body{background:radial-gradient(ellipse at 50% 46%,#1a0b10 0%,#070708 72%)}
+.k{fill:#e3c23a;font-size:38px;letter-spacing:5px;text-transform:uppercase;font-family:'Noto Sans','Noto Sans Tamil',sans-serif}
+.ta .k{text-transform:none;letter-spacing:2px}
+text{font-family:'Noto Sans','Noto Sans Tamil',sans-serif}
+.tick{fill:#9a9486;font-size:30px}.val{fill:#f4efe6;font-size:44px;font-weight:700}
+.lab{fill:#f4efe6;font-size:36px;font-weight:600}.note{fill:#9a9486;font-size:28px}
+</style>
+<svg id=s viewBox="0 0 1920 1080" width=1920 height=1080></svg>
+<script>
+const D=window.__DATA||{};if(D.lang==='ta')document.body.classList.add('ta');
+const NS='http://www.w3.org/2000/svg',s=document.getElementById('s'),E=x=>Math.min(1,Math.max(0,x)),o3=x=>1-Math.pow(1-E(x),3);
+function mk(tag,a,txt){const e=document.createElementNS(NS,tag);for(const k in a)e.setAttribute(k,a[k]);if(txt!==undefined)e.textContent=txt;s.appendChild(e);return e}
+const P=D.points,L=220,R=1720,T=250,B=860,x0=D.x[0],x1=D.x[1],y0=D.y[0],y1=D.y[1];
+const X=v=>L+(R-L)*(v-x0)/(x1-x0),Y=v=>B-(B-T)*(v-y0)/(y1-y0);
+mk('text',{class:'k',x:L,y:120},D.title||'');mk('text',{class:'note',x:L,y:172},D.unit||'');
+for(let v=y0;v<=y1;v+=(D.ystep||10)){mk('line',{x1:L,x2:R,y1:Y(v),y2:Y(v),stroke:'#2a2a33','stroke-width':2});mk('text',{class:'tick',x:L-18,y:Y(v)+10,'text-anchor':'end'},v)}
+for(const yr of D.xticks){mk('text',{class:'tick',x:X(yr),y:B+50,'text-anchor':'middle'},yr)}
+const d='M'+P.map(p=>X(p.x)+','+Y(p.y)).join(' L');
+const line=mk('path',{d,fill:'none',stroke:'#c8102e','stroke-width':10,'stroke-linejoin':'round','stroke-linecap':'round'});const LEN=line.getTotalLength();line.setAttribute('stroke-dasharray',LEN);line.setAttribute('stroke-dashoffset',LEN);
+const dots=P.map(p=>({c:mk('circle',{cx:X(p.x),cy:Y(p.y),r:0,fill:'#e3c23a',stroke:'#0d0d0f','stroke-width':4}),t:mk('text',{class:'val',x:X(p.x),y:Y(p.y)+(p.below?62:-26),'text-anchor':'middle',opacity:0},(D.pre||'')+p.y.toFixed(p.dec??0))}));
+const ann=D.annot?[mk('line',{x1:X(D.annot.x),x2:X(D.annot.x),y1:Y(D.annot.from),y2:Y(D.annot.to),stroke:'#ffd84a','stroke-width':6,'stroke-dasharray':'12 10',opacity:0}),mk('text',{class:'lab',x:X(D.annot.x)+24,y:(Y(D.annot.from)+Y(D.annot.to))/2,opacity:0},D.annot.label)]:[];
+mk('text',{class:'note',x:L,y:1010},D.source||'');
+const dur=D.draw||5;
+window.setT=t=>{const p=o3((t-.5)/dur);line.setAttribute('stroke-dashoffset',LEN*(1-p));
+  dots.forEach((o,i)=>{const frac=(P.length>1?i/(P.length-1):0);const a=E((p-frac*0.9)*10);o.c.setAttribute('r',16*a);o.t.setAttribute('opacity',a)});
+  if(D.annot){const a=o3((t-(D.annot.t||.5+dur))/.7);ann.forEach(e=>e.setAttribute('opacity',a))}
+  document.body.style.opacity=D.dur&&t>D.dur-.4?E((D.dur-t)/.4):1};
+</script>

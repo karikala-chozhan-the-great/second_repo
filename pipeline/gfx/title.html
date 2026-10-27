@@ -1,0 +1,23 @@
+<!doctype html><meta charset=utf-8><link rel=stylesheet href=common.css>
+<style>
+body{background:radial-gradient(ellipse at 50% 45%,#2a0a10 0%,#0d0d0f 70%)}
+#year{position:absolute;left:0;right:0;top:250px;height:320px;line-height:320px;text-align:center;font-family:'Noto Sans',sans-serif;font-size:300px;font-weight:800;letter-spacing:8px;color:var(--gold);font-variant-numeric:tabular-nums}
+#line{position:absolute;left:50%;top:600px;height:6px;background:var(--red);transform:translateX(-50%)}
+#title{position:absolute;left:0;right:0;top:650px;text-align:center;font-size:84px;font-weight:700;line-height:1.25}
+#sub{position:absolute;left:0;right:0;top:830px;text-align:center;font-size:46px;color:#cfc7b8}
+#grain{position:absolute;inset:0;opacity:.08;background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
+</style>
+<div id=year></div><div id=line></div><div id=title></div><div id=sub></div><div id=grain></div>
+<script>
+const D=window.__DATA||{};const ease=x=>1-Math.pow(1-Math.min(1,Math.max(0,x)),3);
+if(D.lang==='ta')document.body.classList.add('ta');
+if(D.noyear){document.getElementById('year').style.display='none';document.getElementById('line').style.top='430px';document.getElementById('title').style.top='480px';document.getElementById('title').style.fontSize='104px';document.getElementById('sub').style.top='700px'}
+const y0=D.from||1985,y1=D.to||1991;
+window.setT=t=>{
+  const p=ease(t/1.6);document.getElementById('year').textContent=Math.round(y0+(y1-y0)*p);
+  document.getElementById('line').style.width=(900*ease((t-.3)/1))+'px';
+  const a=ease((t-.7)/.8);const el=document.getElementById('title');el.textContent=D.title||'';el.style.opacity=a;el.style.transform=`translateY(${(1-a)*30}px)`;
+  const b=ease((t-1.2)/.8);const s=document.getElementById('sub');s.textContent=D.sub||'';s.style.opacity=b;
+  const f=ease((D.dur-t)/.5);if(D.dur&&t>D.dur-.5)document.body.style.opacity=f;else document.body.style.opacity=1;
+};
+</script>
