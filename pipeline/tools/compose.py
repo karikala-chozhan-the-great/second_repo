@@ -60,9 +60,10 @@ def render(i, sc, tail):
     os.replace(tmp, out); return out
 
 def xfade_join(items, out, fade):
-    """items: [(path, d)] where each file lasts d+fade. Output lasts sum(d)+fade."""
+    """items: [(path, d)] where each file lasts d+fade. Output lasts sum(d)+fade. Written atomically (.part -> rename)."""
+    final = out; out = final + ".part.mp4"
     if len(items) == 1:
-        run(["ffmpeg", "-y", "-loglevel", "error", "-i", items[0][0], "-c", "copy", out]); return
+        run(["ffmpeg", "-y", "-loglevel", "error", "-i", items[0][0], "-c", "copy", out]); os.replace(out, final); return
     cmd = ["ffmpeg", "-y", "-loglevel", "error"]; fc = []
     for k, (p, d) in enumerate(items):
         cmd += ["-i", p]; fc.append(f"[{k}:v]settb=AVTB,fps=30,format=yuv420p[s{k}]")
@@ -71,8 +72,17 @@ def xfade_join(items, out, fade):
         T += items[k - 1][1]
         lab = f"x{k}"; fc.append(f"[{prev}][s{k}]xfade=transition=fade:duration={fade}:offset={T:.3f}[{lab}]")
         prev = lab
-    cmd += ["-filter_complex", ";".join(fc), "-map", f"[{prev}]", "-c:v", "libx264", "-crf", "17", "-preset", "fast", "-r", "30", out]
-    run(cmd)
+    cmd += ["-filter_complex", ";".join(fc), "-map", f"[{prev}]", "-c:v", "libx264", "-crf", "16", "-preset", "veryfast", "-r", "30", out]
+    run(cmd); os.replace(out, final)
+
+def maybe_join(j):
+    grp, o = j
+    if os.path.exists(o):
+        r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", o], capture_output=True, text=True)
+        try: ok = float(r.stdout) > 0 and os.path.getmtime(o) >= max(os.path.getmtime(p) for p, _ in grp)
+        except ValueError: ok = False
+        if ok: print(f"  reuse {os.path.basename(o)}", flush=True); return
+    xfade_join(grp, o, FADE)
 
 scenes = SB["scenes"]; n = len(scenes)
 print(f"rendering {n} scenes ({a.jobs} parallel)...", flush=True)
@@ -85,11 +95,13 @@ with cf.ThreadPoolExecutor(a.jobs) as ex:
 # xfade offsets: transition k starts when clip k-1's own duration (d) has played, i.e. fade overlaps the tail
 GROUP = 8; level = [(c, sc["dur"]) for c, sc in zip(clips, scenes)]; tmpdir = os.path.join(ROOT, "build", "tmp_join"); os.makedirs(tmpdir, exist_ok=True); lv = 0
 while len(level) > 1:
-    nxt = []
+    jobs = []
     for gi in range(0, len(level), GROUP):
-        grp = level[gi:gi + GROUP]; o = os.path.join(tmpdir, f"{LANG}_L{lv}_{gi}.mp4")
-        xfade_join(grp, o, FADE); nxt.append((o, sum(d for _, d in grp)))
-    level = nxt; lv += 1
+        grp = level[gi:gi + GROUP]; jobs.append((grp, os.path.join(tmpdir, f"{LANG}_L{lv}_{gi}.mp4")))
+    with cf.ThreadPoolExecutor(3) as ex2:
+        list(ex2.map(maybe_join, jobs))
+    level = [(o, sum(d for _, d in grp)) for grp, o in jobs]; lv += 1
+    print(f"  joined level {lv} ({len(level)} clips)", flush=True)
 video, vdur = level[0]; total = sum(sc["dur"] for sc in scenes) + FADE   # last clip keeps its fade tail
 fo = max(0, total - 0.8)
 run(["ffmpeg", "-y", "-loglevel", "error", "-i", video, "-i", P(SB["audio"]),

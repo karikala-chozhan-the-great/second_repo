@@ -6,11 +6,22 @@ Creative-Commons material with ffmpeg and a headless-Chromium graphics renderer.
 
 | | English | Tamil |
 |---|---|---|
-| Video | `videos/en/` | `videos/ta/` |
+| Full video, 1080p master (split in ~90 MB parts, see below) | `release/en/` | `release/ta/` |
+| Teasers (65 s, wide and vertical) | `release/en/teaser_*_en.mp4` | `release/ta/teaser_*_ta.mp4` |
+| Thumbnail, captions (.srt), YouTube description, credits, chapter times | `release/en/` | `release/ta/` |
 | Narration script | `scripts/narration_en.txt` | `scripts/narration_ta.txt` |
-| Credits, YouTube description, chapter timestamps | `metadata/en/` | `metadata/ta/` |
+| 1-minute previews | `previews/preview_en.mp4` | `previews/preview_ta.mp4` |
 
-Video files are stored with **Git LFS** (`git lfs install` before cloning, or `git lfs pull` afterwards).
+Teasers and previews are stored with **Git LFS** (`git lfs install` before cloning, or `git lfs pull` afterwards).
+
+## Rebuilding the full video from the parts
+The masters (≈ 550 MB each, 1080p H.264/AAC, English 15:02, Tamil 15:19) are split into ~90 MB parts because GitHub rejects files over 100 MB and the LFS quota is small.
+Join the parts in order and check the hash against the last line of `SHA256SUMS.txt`:
+```
+cat the_fall_of_the_soviet_union_en.mp4.part-* > the_fall_of_the_soviet_union_en.mp4      # macOS / Linux
+copy /b the_fall_of_the_soviet_union_en.mp4.part-00+...part-06 the_fall_of_the_soviet_union_en.mp4   # Windows (cmd)
+sha256sum -c SHA256SUMS.txt
+```
 
 ## Read this before publishing
 - **Tamil narration has not been reviewed by a native speaker.** An automatic transcribe-back check measured clarity only
@@ -19,7 +30,7 @@ Video files are stored with **Git LFS** (`git lfs install` before cloning, or `g
   newsreels, labelled "Archival footage" on screen. Chapters about 1985–1991 use maps (modern borders), charts, timelines and still photos.
 - **Disclosures:** the narration is a synthetic voice; check YouTube's current rules on disclosing synthetic content and
   Google's terms for generated audio. Music is Kevin MacLeod, CC BY 4.0 — the credit line must go in the description
-  (`metadata/*/CREDITS.md`). The Chernobyl reactor photo is CC BY-SA 4.0 (Mattias Hill).
+  (`release/*/CREDITS.md`, also in `DESCRIPTION.md`). The Chernobyl reactor photo is CC BY-SA 4.0 (Mattias Hill).
 - Figures: Soviet losses in Afghanistan (~15,000), Baltic Way (~675 km, ~2 million people), the 17 March 1991 referendum (~76% yes,
   six republics did not take part) and the oil-price chart (approximate US crude prices) were checked against web sources; the exact clock time of the flag lowering is not stated.
 
@@ -35,3 +46,5 @@ Video files are stored with **Git LFS** (`git lfs install` before cloning, or `g
    `tools/deliver.py` writes credits, description and chapter timestamps.
 
 Source footage and images are not stored here (they are public and re-downloadable); `metadata/credits_all_assets.csv` lists every asset with its licence and URL.
+
+Extra tools: `tools/final_encode.sh` (resumable final master encode), `tools/qa.py` (probe, loudness, silence/black-frame checks, contact sheets), `tools/post.sh` (teasers, 720p/1080p copies, split parts), `tools/srt.py` (captions), `tools/thumb.py` (thumbnails).
